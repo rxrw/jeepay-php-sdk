@@ -1,10 +1,18 @@
 <?php
 
-namespace Reprover\JeepayPhpSdk\Common;
+namespace Reprover\Jeepay\Common;
 
 trait Signature
 {
-    public function sign($data, $key)
+
+    public function checkSign(array $data, string $key): bool
+    {
+        $sign = $data['sign'];
+        unset($data['sign']);
+        return $sign === $this->sign($data, $key);
+    }
+
+    public function sign($data, $key): string
     {
         return $this->signWithMd5($data, $key);
     }

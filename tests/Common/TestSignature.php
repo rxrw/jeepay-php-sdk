@@ -3,7 +3,7 @@
 namespace Common;
 
 use PHPUnit\Framework\TestCase;
-use Reprover\JeepayPhpSdk\Common\Signature;
+use Reprover\Jeepay\Common\Signature;
 
 class TestSignature extends TestCase
 {
