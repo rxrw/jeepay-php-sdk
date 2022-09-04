@@ -26,18 +26,23 @@ abstract class BaseResponse implements Arrayable
      * @throws HttpException
      * @throws JeepayException
      */
-    public function __construct($response, string $key)
+    public function __construct($response, string $key, bool $is_response = true)
     {
         if (!is_array($response)) {
             $response = json_decode($response, true);
         }
-        if ($response['code'] !== 0) {
-            throw new JeepayException($response['msg'], $response['code']);
+        if ($is_response) {
+            if ($response['code'] !== 0) {
+                throw new JeepayException($response['msg'], $response['code']);
+            }
+            $this->signature = $response['sign'];
+            $this->msg = $response['msg'];
+            $this->code = $response['code'];
+            $this->data = $response['data'];
+        } else {
+            $this->signature = $response['sign'];
+            $this->data = $response;
         }
-        $this->signature = $response['sign'];
-        $this->msg = $response['msg'];
-        $this->code = $response['code'];
-        $this->data = $response['data'];
         $this->key = $key;
 
         $this->checkSign();
