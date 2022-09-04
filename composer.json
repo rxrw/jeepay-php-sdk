@@ -5,7 +5,7 @@
   "require": {
     "ext-curl": "*",
     "ext-json": "*",
-    "illuminate/validation": "^9.27.0",
+    "illuminate/validation": "^v9.27.0",
     "guzzlehttp/guzzle": "^7.5",
     "illuminate/support": "^9.27"
   },
