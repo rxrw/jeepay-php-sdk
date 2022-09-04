@@ -30,7 +30,7 @@ class Notify
      */
     public function processPayment(array $input): OrderDetailEntity
     {
-        return new OrderDetailEntity($input, $this->config->getKey());
+        return new OrderDetailEntity($input, $this->config->getKey(), false);
     }
 
     /**
@@ -39,7 +39,7 @@ class Notify
      */
     public function processRefund(array $input): RefundDetailEntity
     {
-        return new RefundDetailEntity($input, $this->config->getKey());
+        return new RefundDetailEntity($input, $this->config->getKey(), false);
     }
 
     public function success()

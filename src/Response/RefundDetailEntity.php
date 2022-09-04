@@ -23,9 +23,9 @@ class RefundDetailEntity extends BaseResponse
     private Carbon $success_at;
 
 
-    public function __construct($response, string $key)
+    public function __construct($response, string $key, $is_response = true)
     {
-        parent::__construct($response, $key);
+        parent::__construct($response, $key, $is_response);
 
         $data = $this->getData();
         $this->refund_order_id = $data['refundOrderId'];
