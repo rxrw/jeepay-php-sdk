@@ -22,6 +22,13 @@ final class Pay extends HttpClient
      * @throws \Reprover\Jeepay\Exceptions\JeepayException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Reprover\Jeepay\Exceptions\HttpException
+     * @return array{
+     *      errCode: string,
+     *      errMsg: string,
+     *      mchOrderNo: string,
+     *      orderState: int,
+     *      payOrderId: string
+     * }
      */
     public function unifiedOrder(string       $mch_order_no,
                                  WayCode      $way_code,
@@ -34,7 +41,7 @@ final class Pay extends HttpClient
                                  ?int         $expired_time = null,
                                  ?string      $client_ip = null,
                                  ?string      $ext_param = null,
-                                 DivisionMode $division_mode = DivisionMode::AUTO): JeepayResponse
+                                 DivisionMode $division_mode = DivisionMode::AUTO): array
     {
         // convert all params into camel case, ignore null value
         $params = array_filter([
@@ -55,10 +62,36 @@ final class Pay extends HttpClient
             return !is_null($value);
         });
 
-        return $this->postForm(self::UNIFIED_ORDER_URL, $params);
+        return $this->postForm(self::UNIFIED_ORDER_URL, $params)->toArray();
     }
 
-    public function query(?string $pay_order_id, ?string $mch_order_no): JeepayResponse
+    /**
+     * @param ?string $pay_order_id
+     * @param ?string $mch_order_no
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Reprover\Jeepay\Exceptions\HttpException
+     * @throws \Reprover\Jeepay\Exceptions\JeepayException
+     * @return array{
+     *     amount: int,
+     *     appId: string,
+     *     body: string,
+     *     channelOrderNo: string,
+     *     clientIp: string,
+     *     createdAt: int,
+     *     currency: string,
+     *     extParam: string,
+     *     ifCode: string,
+     *     mchNo: string,
+     *     mchOrderNo: string,
+     *     payOrderId: string,
+     *     state: int,
+     *     subject: string,
+     *     successTime: int,
+     *     wayCode: string
+     *     }
+     */
+    public function query(?string $pay_order_id, ?string $mch_order_no): array
     {
         if (is_null($pay_order_id) && is_null($mch_order_no)) {
             throw new \InvalidArgumentException('one of payOrderId and mchOrderNo is required');
@@ -70,10 +103,22 @@ final class Pay extends HttpClient
             return !is_null($value);
         });
 
-        return $this->postForm(self::QUERY_URL, $params);
+        return $this->postForm(self::QUERY_URL, $params)->toArray();
     }
 
-    public function close(?string $pay_order_id, ?string $mch_order_no): JeepayResponse
+    /**
+     * @param string|null $pay_order_id
+     * @param string|null $mch_order_no
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Reprover\Jeepay\Exceptions\HttpException
+     * @throws \Reprover\Jeepay\Exceptions\JeepayException
+     * @return array{
+     *     errCode: string,
+     *     errMsg: string
+     *     }
+     */
+    public function close(?string $pay_order_id, ?string $mch_order_no): array
     {
         // one of payOrderId and mchOrderNo is required
         if (is_null($pay_order_id) && is_null($mch_order_no)) {
@@ -86,7 +131,7 @@ final class Pay extends HttpClient
             return !is_null($value);
         });
 
-        return $this->postForm(self::CLOSE_URL, $params);
+        return $this->postForm(self::CLOSE_URL, $params)->toArray();
     }
 
 }

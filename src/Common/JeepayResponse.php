@@ -6,7 +6,7 @@ use Reprover\Jeepay\Support\Signature;
 use Reprover\Jeepay\Exceptions\HttpException;
 use Reprover\Jeepay\Exceptions\JeepayException;
 
-class JeepayResponse
+class JeepayResponse implements \ArrayAccess
 {
 
     use Signature;
@@ -93,5 +93,25 @@ class JeepayResponse
     public function toArray(): array
     {
         return $this->data;
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->data);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->data[$offset] ?? null;
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->data[$offset] = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        unset($this->data[$offset]);
     }
 }

@@ -15,6 +15,31 @@ final class Transfer extends HttpClient
 
     const QUERY_URL = self::TRANSFER_PREFIX . '/query';
 
+    /**
+     * @param \Reprover\Jeepay\Enums\IfCode    $if_code
+     * @param \Reprover\Jeepay\Enums\EntryType $entry_type
+     * @param int                              $amount
+     * @param string                           $account_no
+     * @param string|null                      $account_name
+     * @param string|null                      $bank_name
+     * @param string|null                      $client_ip
+     * @param string|null                      $transfer_desc
+     * @param string|null                      $notify_url
+     * @param string|null                      $channel_extra
+     * @param string|null                      $ext_param
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Reprover\Jeepay\Exceptions\HttpException
+     * @throws \Reprover\Jeepay\Exceptions\JeepayException
+     * @return array{
+     *     accountNo: string,
+     *     amount: int,
+     *     channelOrderNo: string,
+     *     mchOrderNo: string,
+     *     state: int,
+     *     transferId: string
+     *  }
+     */
     public function transferOrder(IfCode    $if_code,
                                   EntryType $entry_type,
                                   int       $amount,
@@ -25,7 +50,7 @@ final class Transfer extends HttpClient
                                   ?string   $transfer_desc = null,
                                   ?string   $notify_url = null,
                                   ?string   $channel_extra = null,
-                                  ?string   $ext_param = null): JeepayResponse
+                                  ?string   $ext_param = null): array
     {
         $params = array_filter([
             'ifCode'       => $if_code->value,
@@ -44,10 +69,34 @@ final class Transfer extends HttpClient
             return !is_null($value);
         });
 
-        return $this->postForm(self::TRANSFER_ORDER_URL, $params);
+        return $this->postForm(self::TRANSFER_ORDER_URL, $params)->toArray();
     }
 
-    public function query(?string $transfer_id, ?string $mch_order_no): JeepayResponse
+    /**
+     * @param string|null $transfer_id
+     * @param string|null $mch_order_no
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Reprover\Jeepay\Exceptions\HttpException
+     * @throws \Reprover\Jeepay\Exceptions\JeepayException
+     * @return array{
+     *     accountNo: string,
+     *     amount: int,
+     *     appId: string,
+     *     createdAt: int,
+     *     currency: string,
+     *     entryType: string,
+     *     errCode: string,
+     *     errMsg: string,
+     *     ifCode: string,
+     *     mchNo: string,
+     *     mchOrderNo: string,
+     *     state: int,
+     *     transferDesc: string,
+     *     transferId: string
+     * }
+     */
+    public function query(?string $transfer_id, ?string $mch_order_no): array
     {
         if (is_null($transfer_id) && is_null($mch_order_no)) {
             throw new \InvalidArgumentException('one of transferId and mchOrderNo is required');
@@ -57,6 +106,6 @@ final class Transfer extends HttpClient
             'mchOrderNo' => $mch_order_no,
         ];
 
-        return $this->postForm(self::QUERY_URL, $params);
+        return $this->postForm(self::QUERY_URL, $params)->toArray();
     }
 }
