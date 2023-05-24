@@ -56,7 +56,7 @@ final class Pay extends HttpClient
             'notifyUrl'    => $notify_url,
             'returnUrl'    => $return_url,
             'expiredTime'  => $expired_time,
-            'channelExtra' => $channel_extra,
+            'channelExtra' => json_encode($channel_extra),
             'clientIp'     => $client_ip,
             'divisionMode' => $division_mode->value,
             'extParam'     => $ext_param,
