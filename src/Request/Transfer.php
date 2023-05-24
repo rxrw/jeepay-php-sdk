@@ -80,20 +80,26 @@ final class Transfer extends HttpClient
      * @throws \Reprover\Jeepay\Exceptions\HttpException
      * @throws \Reprover\Jeepay\Exceptions\JeepayException
      * @return array{
+     *     accountName: string,
      *     accountNo: string,
      *     amount: int,
      *     appId: string,
+     *     bankName: string,
+     *     channelOrderNo: string,
      *     createdAt: int,
      *     currency: string,
      *     entryType: string,
      *     errCode: string,
      *     errMsg: string,
+     *     extraParam: string,
      *     ifCode: string,
      *     mchNo: string,
      *     mchOrderNo: string,
      *     state: int,
      *     transferDesc: string,
-     *     transferId: string
+     *     transferId: string,
+     *     createdAt: int,
+     *     successTime: int
      * }
      */
     public function query(?string $transfer_id, ?string $mch_order_no): array

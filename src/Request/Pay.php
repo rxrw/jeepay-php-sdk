@@ -23,11 +23,13 @@ final class Pay extends HttpClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Reprover\Jeepay\Exceptions\HttpException
      * @return array{
-     *      errCode: string,
-     *      errMsg: string,
-     *      mchOrderNo: string,
-     *      orderState: int,
-     *      payOrderId: string
+     *     errCode: string,
+     *     errMsg: string,
+     *     mchOrderNo: string,
+     *     orderState: int,
+     *     payOrderId: string,
+     *     payDataType: string,
+     *     payData: string,
      * }
      */
     public function unifiedOrder(string       $mch_order_no,
@@ -88,8 +90,10 @@ final class Pay extends HttpClient
      *     state: int,
      *     subject: string,
      *     successTime: int,
-     *     wayCode: string
-     *     }
+     *     wayCode: string,
+     *     errCode: string,
+     *     errMsg: string,
+     * }
      */
     public function query(?string $pay_order_id, ?string $mch_order_no): array
     {

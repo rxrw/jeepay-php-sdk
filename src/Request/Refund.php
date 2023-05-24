@@ -88,7 +88,9 @@ final class Refund extends HttpClient
      *     refundAmount: int,
      *     refundOrderId: string,
      *     state: int,
-     *     successTime: int
+     *     successTime: int,
+     *     errCode: string,
+     *     errMsg: string,
      * }
      */
     public function query(?string $refund_order_id, ?string $mch_refund_no): array
