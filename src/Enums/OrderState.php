@@ -1,6 +1,6 @@
 <?php
 
-namespace Reprover\Jeepay\caseants;
+namespace Reprover\Jeepay\Enums;
 
 enum OrderState: int
 {

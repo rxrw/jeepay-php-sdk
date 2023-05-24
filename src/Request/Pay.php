@@ -2,7 +2,7 @@
 
 namespace Reprover\Jeepay\Request;
 
-use Reprover\Jeepay\caseants\WayCode;
+use Reprover\Jeepay\Enums\WayCode;
 use Reprover\Jeepay\Common\JeepayResponse;
 use Reprover\Jeepay\Enums\DivisionMode;
 use Reprover\Jeepay\Support\HttpClient;
